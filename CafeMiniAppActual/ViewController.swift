@@ -21,9 +21,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var cartTextView: UITextView!
     @IBOutlet weak var totalPriceLabel: UILabel!
     
-    var menuItems = ["Coffee" : 1.99, "Muffin" : 1.99, "Sandwich" : 4.99]
+    var menuItems: [String:Double] = ["Coffee" : 1.99, "Tea" : 1.99, "Muffin" : 1.99, "Sandwich" : 4.99,  "Croissant" : 1.99]
     var menuText = "Menu:"
     var total = 0.0
+    var cartText = "Cart:"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,15 +39,26 @@ class ViewController: UIViewController {
     }
 
     @IBAction func addItemToCartButton(_ sender: UIButton) {
-        if (itemSearchField.text=="" || itemSearchField.text == "nil"){
-            itemSearchField.text = "You Stupid"
+        let temp = menuItems[itemSearchField.text!]
+        if (temp == nil){
+            itemSearchField.text = "Not Available"
         } else {
-            
+            if (menuItems[itemSearchField.text!] != nil){
+                total = total + menuItems[itemSearchField.text!]!
+            }
+            cartText = cartText + "\n\(itemSearchField.text!)"
+            cartTextView.text = cartText
+            total = round(total*1000)/1000
+            totalPriceLabel.text = "Total Price: $\(total)"
         }
     }
     
     @IBAction func adminPopup(_ sender: UIButton) {
-        PWStackView.isHidden=false
+        if(PWStackView.isHidden == false){
+            PWStackView.isHidden=true
+        } else {
+            PWStackView.isHidden=false
+        }
     }
 }
 
