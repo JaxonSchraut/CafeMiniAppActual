@@ -9,15 +9,22 @@ import UIKit
 
 class ViewController: UIViewController {
     
+//  admin menu opens
     @IBOutlet weak var adminPWField: UITextField!
+//  editing menu
     @IBOutlet weak var adminMenuEditField: UITextField!
+    @IBOutlet weak var adminPriceAddField: UITextField!
+//  add to cart
     @IBOutlet weak var itemSearchField: UITextField!
+//  press to enter password
+    @IBOutlet weak var passwordButton: UIButton!
     
+//  admin menu visibility
     @IBOutlet weak var PWStackView: UIStackView!
     @IBOutlet weak var changesStackView: UIStackView!
     
+//  text displaying
     @IBOutlet weak var menuLabel: UILabel!
-    
     @IBOutlet weak var cartTextView: UITextView!
     @IBOutlet weak var totalPriceLabel: UILabel!
     
@@ -60,5 +67,49 @@ class ViewController: UIViewController {
             PWStackView.isHidden=false
         }
     }
+    
+    
+    @IBAction func passwordEnter(_ sender: UIButton) {
+        let password = "cafe"
+        if(adminPWField.text == nil){}
+        else if(changesStackView.isHidden == true){
+            if(adminPWField.text! == password){
+                changesStackView.isHidden=false
+                passwordButton.setTitle("Close", for: .normal)
+            }
+        } else {
+            passwordButton.setTitle("Enter", for: .normal)
+            changesStackView.isHidden=true
+            PWStackView.isHidden=true
+        }
+    }
+    
+    
+    @IBAction func addItem(_ sender: UIButton) {
+        if (adminMenuEditField.text != nil && adminPriceAddField.text != nil){
+            menuItems[adminMenuEditField.text!] = Double(adminPriceAddField.text!)
+            menuText="Menu:"
+            for (cafeItem, itemPrice) in menuItems{
+                menuText = "\(menuText)\n\(cafeItem): $\(itemPrice)"
+            }
+        }
+        menuLabel.text=menuText
+    }
+    
+    @IBAction func removeItem(_ sender: UIButton) {
+        if(adminMenuEditField.text != nil){
+            let change = adminMenuEditField.text!
+            menuItems.removeValue(forKey: change)
+            menuText="Menu:"
+            for (cafeItem, itemPrice) in menuItems{
+                menuText = "\(menuText)\n\(cafeItem): $\(itemPrice)"
+            }
+            menuLabel.text=menuText
+        }
+    }
+    
+    
+    
+    
 }
 
